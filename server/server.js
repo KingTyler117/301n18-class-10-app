@@ -3,13 +3,13 @@
 // Dependencies
 const express = require('express');
 const cors = require('cors');
-
+const cors = require('cors');
 // Initialize the App
+const express = require('express');
 const app = express();
-app.use(cors());
 
 // Global Variables
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Route Definitions
 app.get('/todo', handleToDo());
@@ -29,9 +29,24 @@ function handleToDo(request, response) {
   response.status(200).json(thingsToDo);
 }
 
-// Go!
-function startServer() {
-  express.listen(PORT, () => console.log('Server is running'));
+
+// Start server
+client.connect()
+  .then( () => {
+    app.listen(PORT, () => {
+      console.log(`Server is up on port ${PORT}.`);
+    });
+  })
+  .catch(err => {
+    throw `PG startup error: ${err.message}`;
+  })
+
+
+  function notFoundHandler(request, response) {
+    response.status(404).send('nope?');
 }
 
-startServer();
+function errorHandler(error, request, response) {
+    response.status(500).send(error);
+}
+ 
